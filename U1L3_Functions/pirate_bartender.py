@@ -1,3 +1,5 @@
+import random
+
 i = 0
 drink = ""
 
@@ -28,24 +30,32 @@ answers = {
 test_input = ["Yes", "YeS", "yeS", "y", "YES"]
 test_output = [True, True, True, True, True]
 
+test_answers = {
+  "strong": ["True"], 
+  "salty": ["True"], 
+  "bitter": ["True"], 
+  "sweet": ["True"], 
+  "fruity": ["False"]
+}
+
 def preferences(value):
-  output = True
-  response = raw_input( "{}".format(value))
-  try: 
-    response.lower() not in ('yes', 'y', 'no', 'n')
-    print "Please enter Yes, Y, No or N."
-  except:
-    pass
-  if response.lower() == "yes":
-    answers[key] = True
-  elif response.lower() == "y":
-    answers[key] = True
-  elif response.lower() == "no":
-    answers[key] = False
-  elif response.lower() == "n":
-    answers[key] = False
-    output = answers[key]
-  return output
+  #do some kind of loop to iterate questions, then collect response in answers
+  for (key, value) in questions.iteritems():
+    while True:
+      response = raw_input( "{}".format(value))
+      if response.lower() not in ('yes', 'y', 'no', 'n'):
+        print "Please enter Yes, Y, No or N."
+      else:
+        break
+    if response.lower() == "yes":
+      answers[key] = True
+    elif response.lower() == "y":
+      answers[key] = True
+    elif response.lower() == "no":
+      answers[key] = False
+    elif response.lower() == "n":
+      answers[key] = False
+  print answers
 
 def test_preferences():
   for i, elem in enumerate(test_input):
@@ -54,17 +64,27 @@ def test_preferences():
     print "checking that preference({}) == {}; {}".format(elem, control, test)
     assert(test == control)
 
+def make_drink(answers, ingredients):
+    drink = []
+    for key, value in answers.iteritems():
+      print value
+      if value == True:
+        #print random.choice(ingredients.get(key))
+        drink.append(random.choice(ingredients.get(key)))
+    #print "this is {}".format(drink)
+    return(drink)
 
+
+    
+    
+    
 def main():
   
   #print test_preferences()
+  print preferences(drink)
+  print make_drink(answers, ingredients)
   
-  #do some kind of loop to iterate questions, then collect response in answers
-  for (key, value) in questions.iteritems():
-    while True:
-      preferences(drink)
-
   
-print "__name__ is: ".format(__name__)
+#print "__name__ is: ".format(__name__)
 if __name__ == "__main__":
   main()
