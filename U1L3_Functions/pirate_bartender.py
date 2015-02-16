@@ -1,4 +1,5 @@
 i = 0
+drink = ""
 
 questions = {
     "strong": "Do ye like yer drinks strong?",
@@ -24,7 +25,7 @@ answers = {
   "fruity": [""]
 }
 
-def what_style():
+def preferences(drink):
   #do some kind of loop to iterate questions, then collect response in answers
   for (key, value) in questions.iteritems():
     while True:
@@ -41,9 +42,10 @@ def what_style():
       answers[key] = False
     elif response.lower() == "n":
       answers[key] = False
+  return answers
+      
+print preferences(drink)
 
-what_style()
-print answers
 #dictionary['name'] = 'neo'
 # print "{} => {}".format(key, value)
 # print questions["strong"]
