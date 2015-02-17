@@ -79,17 +79,17 @@ def make_drink(answers, ingredients):
       if value == True:
         #drink.append(random.choice(ingredients.get(key)))
         drink.append(random.choice(ingredients[key]))
+    print "Your drink contains the following:"
+    for ingredient in drink:
+      print "  A {}".format(ingredient)
     return drink
-
+  
 def name_drink(ordered_drink):
   name = ""
   name = ''.join(random.sample(names_adjectives, 1))
   name += " "
   name += ''.join(random.sample(names_nouns, 1))
-  print "Your drink contains the following:"
-  for ingredient in ordered_drink:
-    print "  A {}".format(ingredient)
-    print "Your drink is called the %s" %(name)
+  print "Your drink is called the %s" %(name)
   return name
     
 def evaluate_customer():
@@ -116,12 +116,15 @@ def main():
     thirsty = raw_input("Would you like something to drink?")
     if thirsty.lower() in ('yes', 'y'):
       cust_name, reg_customer = evaluate_customer()
-      print cust_name
-      print reg_customer
+      #print cust_name
+      #print reg_customer
       if reg_customer == False:
         answers = find_preferences()
       else:
-        answers = customer_dict[cust_name]
+        for name, prefs in customer_dict.iteritems():
+          answers[name] = customer_dict[cust_name]
+        # this needs to look like output of find_preferences()
+        #{'bitter': True, 'strong': True, 'salty': True, 'fruity': True, 'sweet': True}  
       print answers
 
       #ordered_drink = make_drink(answers, ingredients)
