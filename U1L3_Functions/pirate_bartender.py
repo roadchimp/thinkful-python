@@ -33,8 +33,7 @@ names_adjectives = ["Fluffy", "Salty", "Portly", "Spritely"]
 names_nouns = ["SeaMonkey", "Chinchilla", "Poodle", "Porpoise"]
 
 customer_dict = {
-  "sam": [True, True, True, True, True],
-  "joe": [True, False, False, True, True]
+  'sam': {'bitter': True, 'strong': True, 'salty': True, 'fruity': True, 'sweet': False}
 }
 
 test_input = ["Yes", "YeS", "yeS", "y", "YES"]
@@ -93,7 +92,7 @@ def name_drink(ordered_drink):
   return name
     
 def evaluate_customer():
-  cust_name = raw_input("Hi, what's your name?")
+  cust_name = raw_input("Welcome! What's your name?")
   while True:
     for name, prefs in customer_dict.iteritems():
       reg_customer = False
@@ -103,33 +102,27 @@ def evaluate_customer():
     if reg_customer == True:
       print "Welcome back, %s" % cust_name
     else:
-      print "I guess you're new"
+      print "Good to see a new customer!"
       customer_dict[cust_name] = ""
     return (cust_name, reg_customer)
     break
-
-
+    
 def main():
   
   #test_preferences()
+  cust_name, reg_customer = evaluate_customer()
   while True:
     thirsty = raw_input("Would you like something to drink?")
     if thirsty.lower() in ('yes', 'y'):
-      cust_name, reg_customer = evaluate_customer()
-      #print cust_name
-      #print reg_customer
       if reg_customer == False:
         answers = find_preferences()
+        customer_dict[cust_name]= answers
+        reg_customer = True
       else:
-        for name, prefs in customer_dict.iteritems():
-          answers[name] = customer_dict[cust_name]
-        # this needs to look like output of find_preferences()
-        #{'bitter': True, 'strong': True, 'salty': True, 'fruity': True, 'sweet': True}  
-      print answers
-
-      #ordered_drink = make_drink(answers, ingredients)
-      #name = name_drink(ordered_drink)
-
+        answers = customer_dict[cust_name]
+        print answers
+      ordered_drink = make_drink(answers, ingredients)
+      name = name_drink(ordered_drink)
     else:
       print "Okay, time to call it a night then, bye!"
       break
