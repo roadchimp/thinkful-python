@@ -3,6 +3,7 @@ import random
 i = 0
 drink = ""
 name = ""
+reg_customer = False
  
 questions = {
     "strong": "Do ye like yer drinks strong?",
@@ -19,7 +20,15 @@ ingredients = {
     "sweet": ["sugar cube", "spoonful of honey", "spash of cola"],
     "fruity": ["slice of orange", "dash of cassis", "cherry on top"]
 }
-  
+ 
+answers = {
+  "strong": [""], 
+  "salty": [""], 
+  "bitter": [""], 
+  "sweet": [""], 
+  "fruity": [""]
+}
+ 
 stock = {
   "glug of rum" : 10,
   "slug of whisky" : 10,
@@ -57,7 +66,6 @@ test_answers = {
 }
  
 def find_preferences():
-  answers = {}
   for (key, value) in questions.iteritems():
     while True:
       response = raw_input( "{}".format(value))
@@ -103,15 +111,19 @@ def name_drink(ordered_drink):
     
 def evaluate_customer():
   cust_name = raw_input("Welcome! What's your name?")
-  reg_customer = False
-  if customer_dict.has_key(cust_name.lower()):
-    reg_customer = True
-    print "Welcome back, %s" % cust_name
-  else:
-    print "Good to see a new customer!"
-    customer_dict[cust_name] = {}
-    return (cust_name, reg_customer)    
-    
+  while True:
+    for name, prefs in customer_dict.iteritems():
+      reg_customer = False
+      if cust_name.lower() == name:
+        reg_customer = True
+        break
+    if reg_customer == True:
+      print "Welcome back, %s" % cust_name
+    else:
+      print "Good to see a new customer!"
+      customer_dict[cust_name] = ""
+    return (cust_name, reg_customer)
+    break
     
 def main():
   
@@ -120,14 +132,14 @@ def main():
   while True:
     thirsty = raw_input("Would you like something to drink?")
     if thirsty.lower() in ('yes', 'y'):
-      if reg_customer:
-        answers = customer_dict[cust_name]
-      else:
+      if reg_customer == False:
         answers = find_preferences()
-        customer_dict[cust_name] =  answers     
+        customer_dict[cust_name]= answers
+        reg_customer = True
+      else:
+        answers = customer_dict[cust_name]
       ordered_drink = make_drink(answers, ingredients)
       name = name_drink(ordered_drink)
-      reg_customer = True
     else:
       print "Okay, time to call it a night then, bye!"
       break
