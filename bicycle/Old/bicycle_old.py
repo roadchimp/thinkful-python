@@ -19,19 +19,21 @@ class Manufacturer(object):
     self.margin = margin
     self.catalog = []
   
-class Bicycle(object):
+class Bicycle(Manufacturer):
   def __init__(self, model, frame, wheel):
     self.model = model
     self.frame = frame
     self.wheel = wheel
+    self.weight = self.wheel.weight * 2 + self.frame.weight
+    self.cost = self.wheel.cost * 2 + self.frame.cost
   
-  # we want to use a function, because it is not dependent on the initialiazation of the object (computed property)
-  def weight(self):
-    return (self.wheel.weight * 2) + self.frame.weight
-  
-  def cost(self):
-    return (self.wheel.cost * 2) + self.frame.cost
+#   def Bicycle_weight(self):
+#     return self.wheel.weight * 2 + self.frame.weight
+#     self.weight = weight
+#     self.cost = cost
     
+#   def manuf_cost(self):
+#     return self.wheel.cost * 2 + self.frame.cost
 
 class BikeShop(object):
   def __init__(self, name, inventory, margin):
@@ -39,32 +41,13 @@ class BikeShop(object):
     self.inventory = []
     self.margin = margin
 
-  def add_inventory(self, *bicycle):
-    for unit in bicycle:
+  def Purchase_Bike(self, *Bicycle):
+    for unit in Bicycle:
       self.inventory.append(unit)
-
-  def print_inventory(self):
-    inventory_string = "Inventory \n" 
-    for bike in self.inventory:
-      inventory_string += bike.model + "\n"
-    return inventory_string
-
-
-  def inventory_wholesale(self):
-    w = 0
-    for bike in self.inventory:
-      w+= bike.cost()
-    return w
-  
-  def inventory_retail(self):
-    r = 0
-    for bike in self.inventory:
-      r+= bike.cost() * (1+ self.margin)
-    return r
-  
-  def potential_profit(self):
-    return self.inventory_retail() - self.inventory_wholesale()
-    
+      print unit.model
+      #unit.wholesale_price = unit.cost * ( 1 + unit.Manufacturer.margin)
+	  #unit.retail_price = unit.wholesale_price * (1 + self.margin)
+	  #self.profit -= unit.wholesale_price   
     
   def salesprice(self, bicycle):
     return bicycle.Bicycle_cost * (self.margin + 1)/ 100.0 
